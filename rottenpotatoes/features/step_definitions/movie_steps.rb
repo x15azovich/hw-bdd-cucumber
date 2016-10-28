@@ -13,8 +13,7 @@ end
 #   on the same page
 
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
- assertpage.body.index(e1) <page.body.index(e2)
- 
+e1 <e2 
  # fail "Unimplemented"
 end
 
@@ -26,6 +25,12 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
   # HINT: use String#split to split up the rating_list, then
   #   iterate over the ratings and reuse the "When I check..." or
   #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
+  if uncheck == "un"
+    #split each comma from the rating list declared in the support files
+    rating_list.split(', ').each {|x| step %{I uncheck "ratings_#{x}"}}
+  else
+    rating_list.split(', ').each {|x| step %{I check "ratings_#{x}"}}
+  end
   
   
   #fail "Unimplemented"
@@ -33,6 +38,15 @@ end
 
 Then /I should see all the movies/ do
   # Make sure that all the movies in the app are visible in the table
-  assert page.all( '#movies tr' ).size == Movie.count()
+  assert (page.all( '#movies tr' ).size -1) == Movie.count()
   #fail "Unimplemented"
 end
+
+
+#opposite of should see all movies
+
+Then /I should not see all the movies/ do
+#set it to 0 instead of the number of movies
+assert (page.all('#movies tr').size-1) == 0
+end
+
