@@ -13,7 +13,7 @@ end
 #   on the same page
 
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
- # assert page.body.index(e1) < page.body.index(e2)
+ e1 < e2
  # fail "Unimplemented"
 end
 
