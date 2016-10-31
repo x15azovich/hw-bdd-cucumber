@@ -13,8 +13,10 @@ end
 #   on the same page
 
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
- e1 < e2
- # fail "Unimplemented"
+ regexp = /#{e1}.*#{e2}/m
+ page.body.should =~ regexp
+ # assert page.body.index(e1) < page.body.index(e2)
+ 
 end
 
 # Make it easier to express checking or unchecking several boxes at once
