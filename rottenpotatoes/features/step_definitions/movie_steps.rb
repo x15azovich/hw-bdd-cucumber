@@ -13,7 +13,7 @@ end
 #   on the same page
 
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
-e1 <e2 
+ # assert page.body.index(e1) < page.body.index(e2)
  # fail "Unimplemented"
 end
 
@@ -36,17 +36,11 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
   #fail "Unimplemented"
 end
 
-Then /I should see all the movies/ do
-  # Make sure that all the movies in the app are visible in the table
-  assert (page.all( '#movies tr' ).size -1) == Movie.count()
-  #fail "Unimplemented"
+Then /I should see all of the movies/ do
+  Movie.all.each{|x| step %{I should see "#{x.title}"}}
 end
 
 
-#opposite of should see all movies
 
-Then /I should not see all the movies/ do
-#set it to 0 instead of the number of movies
-assert (page.all('#movies tr').size-1) == 0
-end
+
 
